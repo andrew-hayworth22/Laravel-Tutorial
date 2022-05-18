@@ -1,7 +1,10 @@
 <?php
 
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use App\Models\Post;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +17,14 @@ use App\Models\Post;
 |
 */
 
-Route::get('/', function () {    
+Route::get('/', function () {
+    // Use clockwork to replace this functionality!
+    /*DB::listen(function($query) {
+       logger($query->sql, $query->bindings);
+    });*/
+
     return view('posts', [
-        'posts' => Post::all()
+        'posts' => Post::with('category')->get()
     ]);
 });
 
@@ -28,3 +36,10 @@ Route::get('posts/{post:slug}', function(Post $post) {
     ]);
 
 }); // also whereAlpha(), whereAlphanumeric(), whereNumber()
+
+Route::get('categories/{category:slug}', function(Category $category) {
+    // Find a post by its slug and pass it to a view called "post"
+    return view('posts', [
+        'posts' => $category->posts
+    ]);
+});
