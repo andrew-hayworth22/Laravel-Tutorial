@@ -30,7 +30,7 @@
 
             <div class="text-sm mt-2">
                 <p>
-                    {{ $post->excerpt; }}
+                    {{ $post->excerpt }}
                 </p>
             </div>
 
@@ -43,12 +43,9 @@
                     </div>
                 </div>
 
-                <div class="hidden lg:block">
-                    <a href="/posts/{{ $post->slug }}"
-                        class="transition-colors duration-300 text-xs font-semibold bg-gray-200 hover:bg-gray-300 rounded-full py-2 px-8">Read
-                        More</a>
-                </div>
-            </footer>
+                <x-category-button :category="$post->category" />
         </div>
+        </footer>
+    </div>
     </div>
 </article>
