@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use App\Models\Post;
@@ -18,40 +19,51 @@ use Illuminate\Support\Facades\Log;
 |
 */
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     // Use clockwork to replace this functionality!
-    /*DB::listen(function($query) {
+    DB::listen(function($query) {
        logger($query->sql, $query->bindings);
-    });*/
+    });
+
+    $posts = Post::latest();
+
+    if(request('search')) {
+        $posts->where('title', 'like', '%' . request('search') . '%')
+              ->orWhere('body', 'like', '%' . request('search') . '%');
+    }
 
     return view('posts', [
-        'posts' => Post::latest()->with('category', 'author')->get(),
+        'posts' => $posts->get(),
         'categories' => Category::all()
     ]);
-})->name('home');
+})->name('home'); */
 
-Route::get('posts/{post:slug}', function(Post $post) {
+Route::get('/', [PostController::class, 'index'])->name('home');
+
+
+/* Route::get('posts/{post:slug}', function(Post $post) {
 
     // Find a post by its slug and pass it to a view called "post"
     return view('post', [
         'post' => $post
     ]);
 
-}); // also whereAlpha(), whereAlphanumeric(), whereNumber()
+}); // also whereAlpha(), whereAlphanumeric(), whereNumber() */
 
-Route::get('categories/{category:slug}', function(Category $category) {
+Route::get('posts/{post:slug}', [PostController::class, 'show']);
+
+/* Route::get('categories/{category:slug}', function(Category $category) {
     // Find a post by its slug and pass it to a view called "post"
     return view('posts', [
         'posts' => $category->posts->load(['category', 'author']),
         'currentCategory' => $category,
         'categories' => Category::all()
     ]);
-})->name('category');
+})->name('category'); */
 
 Route::get('authors/{author:username}', function(User $author) {
     // Find a post by its slug and pass it to a view called "post"
     return view('posts', [
-        'posts' => $author->posts->load(['category', 'author']),
-        'categories' => Category::all()
+        'posts' => $author->posts->load(['category', 'author'])
     ]);
 });
