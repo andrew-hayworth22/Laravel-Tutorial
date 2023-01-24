@@ -1,12 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostController;
-use App\Models\Category;
 use Illuminate\Support\Facades\Route;
-use App\Models\Post;
-use App\Models\User;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,9 +56,9 @@ Route::get('posts/{post:slug}', [PostController::class, 'show']);
     ]);
 })->name('category'); */
 
-Route::get('authors/{author:username}', function(User $author) {
-    // Find a post by its slug and pass it to a view called "post"
-    return view('posts', [
-        'posts' => $author->posts->load(['category', 'author'])
-    ]);
-});
+/* Route::get('authors/{author:username}', function(User $author) {
+        // Find a post by its slug and pass it to a view called "post"
+        return view('posts.index', [
+            'posts' => $author->posts->load(['category', 'author'])
+        ]);
+   }); */
