@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -62,3 +63,6 @@ Route::get('posts/{post:slug}', [PostController::class, 'show']);
             'posts' => $author->posts->load(['category', 'author'])
         ]);
    }); */
+
+   Route::get('register', [RegistrationController::class, 'create']);
+   Route::post('register', [RegistrationController::class, 'store']);
